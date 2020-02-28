@@ -16,23 +16,37 @@ public class SimpleList
 	private int count;
 
 	
-	// Setting count to 0 and list to 10 spaces of use
+	/*
+	 * Constructor : Setting count to 0 and list to ten spaces of use
+	 */
 	public SimpleList() 
 	{
 		list = new int[10];
 		count = 0;
 	}
 
-	
-	// Add a new integer to the beginning of the list at index = 0
-	// Moves the other integers over to the right and if the list is full,
-	// it removes the last element off the list and increments count after procedure
+	/**
+	 * Add a new integer to the beginning of the list at index = 0
+	 * Moves the other integers over to the right and if the list is full,
+	 * it removes the last element off the list and increments count after procedure
+	 * NEW : If list was full, size of list increases by 50 percent to accommodate
+	 * 
+	 * @oaram newInt the integer to be added into the list
+	 */
 	public void add(int newInt) 
 	{
-		// Removing one from count if it goes over 10 after each addition
-		if (count == 10) 
+		// To increase list size if exceeding ten limit by fifty percent
+		if (count == list.length) 
 		{
-			count--;
+			int previousCount = count - 1;
+			int[] newerList = new int[count + count / 2];
+			
+			for (int secondLoop = 0; secondLoop <= previousCount; secondLoop++) 
+			{
+				newerList[secondLoop] = list[secondLoop];
+			}
+			
+			list = newerList;
 		}
 		
 		// Loop goes through each value increasing by one index value
@@ -41,18 +55,18 @@ public class SimpleList
 			list[firstLoop] = list[firstLoop - 1];
 		}
 		
+		// Integer added to beginning of list and count increases by one
 		list[0] = newInt;
-		
-		// Increases count by one if limit of 10 is not reached
-		if (count != 10) 
-		{
-			count++;
-		}
+		count++;
 	}
 
 	
-	// Removes the selected parameter from the list and other values
-	// in the list are moved down while adjusting the count value
+	/**
+	 * Removes the selected parameter from the list and other values
+	 * in the list are moved down while adjusting the count value
+	 * 
+	 * @param newInt the integer to be removed from the list
+	 */
 	public void remove(int newInt) 
 	{
 		
@@ -62,6 +76,20 @@ public class SimpleList
 		if (count == -1) 
 		{
 			count = 0;
+		}
+		
+		// If list is greater than twenty five percent of blanks, the list shrinks
+		if (count < list.length - list.length / 4) 
+		{
+			int previousCount = count - 1;
+			int [] newerList = new int[list.length - list.length / 4];
+			
+			for (int secondLoop = 0; secondLoop <= previousCount; secondLoop++) 
+			{
+				newerList[secondLoop] = list[secondLoop];
+			}
+			
+			list = newerList;
 		}
 		
 		// Checks if value is inside of the loop, if so it decreases count
@@ -84,16 +112,24 @@ public class SimpleList
 			}
 		}
 	}
-
 	
-	// Returns the number of elements stored in the list
+	
+	/**
+	 * Returns the number of elements stored in the list
+	 * 
+	 * @return count  returns the number of stored elements in the list
+	 */
 	public int count() 
 	{
 		return count;
 	}
-
 	
-	// Returns the list in as a String with spaced between each value
+	 
+	/**
+	 * Function to return the list in as a String with spaced between each value
+	 * 
+	 * @return fullList  all integers within the returned string
+	 */
 	public String toString() 
 	{
 		String fullList = "";
@@ -113,10 +149,16 @@ public class SimpleList
 		// Returns the full string without a space at the end
 		return fullList;
 	}
-
 	
-	// Searches for the location of the specific parameter in the list
-	// If parameter is not present, a -1 is returned
+	
+	/**
+	 * Function to search for the location of the specific parameter in the list
+	 * If parameter is not present, a -1 is returned
+	 * 
+	 * @param searchValue  value being searched in list
+	 * @return -1  value returned when full list is empty
+	 * @return fullListIndex  indexValue of search value parameter
+	 */
 	public int search(int searchValue) 
 	{
 		int multipleValues = 0;
@@ -145,4 +187,82 @@ public class SimpleList
 			return fullListIndex;
 		}
 	}
+	
+	
+	/**
+	 * Function to return the first integer in list, and if not found, returns a -1
+	 * 
+	 * @return -1  value when the list is empty
+	 * @return list[0]  returns the first index value
+	 */
+	public int first() 
+	{
+		// If the list is empty, returns a one
+		if (count == 0) 
+		{
+			return -1;
+		}
+		
+		// If not, returns the first value from the index
+		return list[0];
+	}
+	
+	
+	/**
+	 * Function to tell the the current number of possible locations in the list
+	 * 
+	 * @return list.length  shows current number of possible locations in list
+	 */
+	public int size() 
+	{
+		return list.length;
+	}
+	
+	
+	/**
+	 * Function to give the last inputed integer at end of the list
+	 * 
+	 * @return list[count - 1]  returns last inputed integer at end of list
+	 * @return -1  returns a -1 if no elements (n) in the list
+	 */
+	public int last()
+	{
+		if (count == 0)
+		{
+			return -1;
+		}
+		
+		return list[count - 1];
+	}
+	
+	
+	/**
+	 * Function to add a given integer to the end of the list
+	 * 
+	 * @param item  integer that will be added to end of the list
+	 */
+	public void append (int newInt) 
+	{
+		
+		if (count == list.length) 
+		{
+			// Reduces count by one and adds 50 percent more into new list
+			int previousCount = count - 1;
+			int[] newerList = new int[count + count / 2];
+			
+			// Addition of all previous values from oldList to newerList 
+			for (int firstLoop = 0; firstLoop <= previousCount; firstLoop++) 
+			{
+				newerList[firstLoop] = list[firstLoop];
+			}
+			
+			// Size of the list variable updated with newerList size
+			list = newerList;
+		}
+		
+		// Increments count and adds the new integer to the end of the list
+		list[count] = newInt;
+		count++;
+	}
+	
 }
